@@ -1,0 +1,15 @@
+GET http://localhost:3001/notas
+
+###
+
+GET http://localhost:3001/notas/1
+
+###
+
+POST http://localhost:3001/notas
+content-type: application/json
+
+{
+    "titulo": "Nota nueva",
+    "descripcion": "descripcion de la nueva nota"
+}
