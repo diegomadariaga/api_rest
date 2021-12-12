@@ -5,16 +5,21 @@ import { open } from 'sqlite';
 async function connect() {
     const db = await open({
         filename: './database/Northwind-simple.sqlite',
-        driver: sqlite3.Database
+        driver: sqlite3.cached.Database
     });
     return db;
 }
 // get all Orders
-async function getOrders() {
+async function getRows(sql:string) {
     const db = await connect();
-    const result = await db.all('SELECT * FROM orders');
-    console.log(result);
-    return result;
+    try {
+        const rows: any[] = await db.all(sql);
+        console.log(rows);
+        return rows;
+    } catch (err) { 
+        console.log(err);
+    }
 }
-getOrders();
+//getRows('SELECT * FROM categories');
+getRows('INSERT INTO categories (CategoryName, Description) VALUES ("test-node","description")');
 

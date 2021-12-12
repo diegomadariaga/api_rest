@@ -1,18 +1,19 @@
-import express, { Request, Response } from "express";
-import dotenv from "dotenv";
-
-const app: express.Application = express();
-
-dotenv.config();
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = __importDefault(require("express"));
+var dotenv_1 = __importDefault(require("dotenv"));
+var app = express_1.default();
+dotenv_1.default.config();
 // configurar el puerto
 app.set("port", process.env.PORT || 3000);
-
 // use middleware body-parser para recibir jsons
-app.use(express.json());
+app.use(express_1.default.json());
 // use middleware url-encoded para formularios con archivos
-app.use(express.urlencoded({ extended: true }));
-
-const notas = [
+app.use(express_1.default.urlencoded({ extended: true }));
+var notas = [
     {
         id: 1,
         titulo: "Nota 1",
@@ -49,45 +50,41 @@ const notas = [
         actualizado: new Date(),
     },
 ];
-
-app.get("/", (req: Request, res: Response) => {
+app.get("/", function (req, res) {
     res.send("Hola mundo");
 });
-
-app.get("/notas", (req: Request, res: Response) => {
+app.get("/notas", function (req, res) {
     res.json(notas);
 });
-
-app.get("/notas/:id", (req: Request, res: Response) => {
+app.get("/notas/:id", function (req, res) {
     try {
-        const id = Number(req.params.id);
-        if (isNaN(id)) {
+        var id_1 = Number(req.params.id);
+        if (isNaN(id_1)) {
             throw new Error("El id debe ser un numero");
         }
-
-        const nota = notas.find(function (n) {
-            return n.id === id;
+        var nota = notas.find(function (n) {
+            return n.id === id_1;
         });
-
         if (nota) {
             res.json(nota);
-        } else {
+        }
+        else {
             res.status(404).json({
                 mensaje: "Nota no encontrada"
             });
         }
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).send("Error interno " + error);
     }
 });
-
-app.post("/notas", (req: Request, res: Response) => {
+app.post("/notas", function (req, res) {
     try {
-        const nota = req.body;
+        var nota = req.body;
         if (!nota.titulo || !nota.descripcion) {
             throw new Error("El titulo y la descripcion son obligatorios");
         }
-        const id = notas.reduce(function (prev, current) {
+        var id = notas.reduce(function (prev, current) {
             return (prev.id > current.id) ? prev : current;
         });
         nota.id = id.id + 1;
@@ -95,34 +92,35 @@ app.post("/notas", (req: Request, res: Response) => {
         nota.actualizado = new Date();
         notas.push(nota);
         res.json(nota);
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).send("Error interno " + error);
     }
     console.log(notas);
 });
-
-app.delete("/notas/:id", (req: Request, res: Response) => {
+app.delete("/notas/:id", function (req, res) {
     try {
-        const id = Number(req.params.id);
-        if (isNaN(id)) {
+        var id_2 = Number(req.params.id);
+        if (isNaN(id_2)) {
             throw new Error("El id debe ser un numero");
         }
-        const nota = notas.find(function (n) {
-            return n.id === id;
+        var nota = notas.find(function (n) {
+            return n.id === id_2;
         });
         if (nota) {
             notas.splice(notas.indexOf(nota), 1);
             res.json(nota);
-        } else {
+        }
+        else {
             res.status(404).json({
                 mensaje: "Nota no encontrada"
             });
         }
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).send("Error interno " + error);
     }
 });
-
-app.listen(app.get("port"), () => {
-    console.log(` server on http://localhost:${app.get("port")}`);
+app.listen(app.get("port"), function () {
+    console.log(" server on http://localhost:" + app.get("port"));
 });
