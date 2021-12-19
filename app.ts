@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
-import router from "./routes/routes_users";
+import routerUser from "./routes/routes_users";
 
 const app: express.Application = express();
 
@@ -14,14 +14,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-
 app.get("/", (req: Request, res: Response) => {
     res.send("Hola mundo");
 });
-
-app.use("/user", router);
-
-
+app.use("/user", routerUser);
 
 app.listen(app.get("port"), () => {
     console.log(` server on http://localhost:${app.get("port")}`);
