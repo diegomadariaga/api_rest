@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertUser = exports.getAsyncAllUsers = exports.createDatabase = void 0;
+exports.getUserById = exports.insertUser = exports.getAsyncAllUsers = exports.createDatabase = void 0;
 const sqlite3_1 = __importDefault(require("sqlite3"));
 const sqlite_1 = require("sqlite");
 //create database if not exists
@@ -93,3 +93,18 @@ async function insertUser(user) {
     }
 }
 exports.insertUser = insertUser;
+// get user by id
+async function getUserById(id) {
+    try {
+        const db = await connect();
+        const rows = await db.all(`
+            SELECT * FROM users WHERE id = ?
+        `, [id]);
+        await db.close();
+        return rows;
+    }
+    catch (err) {
+        console.log("error in getUserById", err);
+    }
+}
+exports.getUserById = getUserById;

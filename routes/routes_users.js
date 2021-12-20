@@ -8,5 +8,6 @@ const controllerUser_1 = require("../controllers/controllerUser");
 const router = express_1.default.Router();
 router.get('/', controllerUser_1.getAllUsers);
 router.post('/', controllerUser_1.createUser);
+router.get('/:id', controllerUser_1.getUser);
 // Export the router
 exports.default = router;

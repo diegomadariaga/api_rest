@@ -93,6 +93,18 @@ async function insertUser(user: User) {
     }
 }
 // get user by id
+async function getUserById(id: number){
+    try {
+        const db = await connect();
+        const rows = await db.all(`
+            SELECT * FROM users WHERE id = ?
+        `, [id]);
+        await db.close();
+        return rows;
+    } catch (err) {
+        console.log("error in getUserById", err);
+    }
+}
 // export functions
-export { createDatabase, getAsyncAllUsers , insertUser};
+export { createDatabase, getAsyncAllUsers , insertUser, getUserById};
 
