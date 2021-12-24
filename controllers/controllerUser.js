@@ -35,15 +35,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
-exports.getUser = exports.createUser = exports.getAllUsers = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteUser = exports.getUser = exports.createUser = exports.getAllUsers = void 0;
 var db_1 = require("../database/db");
 var User_1 = require("../models/User");
 var getAllUsers = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, db_1.getAsyncAllUsers()];
+            case 0: return [4 /*yield*/, (0, db_1.getAsyncAllUsers)()];
             case 1:
                 users = _a.sent();
                 if (users) {
@@ -64,7 +64,7 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
             case 0:
                 params = req.body;
                 newUser = new User_1.User(params.id, params.username, params.password, params.email, params.firstname, params.lastname, params.isAdmin, params.created, params.updated);
-                return [4 /*yield*/, db_1.insertUser(newUser)];
+                return [4 /*yield*/, (0, db_1.insertUser)(newUser)];
             case 1:
                 result = _a.sent();
                 if (result) {
@@ -87,7 +87,7 @@ var getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 if (!(isNaN(id) || id < 0)) return [3 /*break*/, 1];
                 res.status(404).json({ message: 'id is not a positive number' });
                 return [3 /*break*/, 3];
-            case 1: return [4 /*yield*/, db_1.getUserById(id)];
+            case 1: return [4 /*yield*/, (0, db_1.getUserById)(id)];
             case 2:
                 user = _a.sent();
                 if (user && user.length > 0) {
@@ -102,3 +102,27 @@ var getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
     });
 }); };
 exports.getUser = getUser;
+var deleteUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                id = Number(req.params.id);
+                if (!(isNaN(id) || id < 0)) return [3 /*break*/, 1];
+                res.status(404).json({ message: 'id is not a positive number' });
+                return [3 /*break*/, 3];
+            case 1: return [4 /*yield*/, (0, db_1.deleteUserById)(id)];
+            case 2:
+                user = _a.sent();
+                if (user && user.length > 0) {
+                    res.json({ message: 'user deleted' });
+                }
+                else {
+                    res.status(404).json({ message: 'user not found' });
+                }
+                _a.label = 3;
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.deleteUser = deleteUser;

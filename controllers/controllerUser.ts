@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getAsyncAllUsers, insertUser, getUserById } from '../database/db';
+import { getAsyncAllUsers, insertUser, getUserById ,deleteUserById} from '../database/db';
 import { User } from '../models/User';
 
 const getAllUsers = async (_req: Request, res: Response) => {
@@ -34,5 +34,19 @@ const getUser = async (req: Request, res: Response) => {
         }
     }
 }
+const deleteUser = async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    //verify if id is a number
+    if (isNaN(id) || id < 0) {
+        res.status(404).json({ message: 'id is not a positive number' });
+    } else {
+        const user = await deleteUserById(id);
+        if (user && user.length > 0) {
+            res.json({ message: 'user deleted' });
+        } else {
+            res.status(404).json({ message: 'user not found' });
+        }
+    }
+}
 
-export { getAllUsers, createUser, getUser };
+export { getAllUsers, createUser, getUser , deleteUser};

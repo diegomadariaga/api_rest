@@ -105,6 +105,19 @@ async function getUserById(id: number){
         console.log("error in getUserById", err);
     }
 }
+// delete user by id 
+async function deleteUserById(id: number){
+    try {
+        const db = await connect();
+        const rows = await db.all(`
+            DELETE FROM users WHERE id = ?
+        `, [id]);
+        await db.close();
+        return rows;
+    } catch (err) {
+        console.log("error in deleteUserById", err);
+    }
+}
 // export functions
-export { createDatabase, getAsyncAllUsers , insertUser, getUserById};
+export { createDatabase, getAsyncAllUsers , insertUser, getUserById, deleteUserById};
 
