@@ -118,6 +118,19 @@ async function deleteUserById(id: number){
         console.log("error in deleteUserById", err);
     }
 }
+// update user by id
+async function updateUserById(id: number, user: User){
+    try {
+        const db = await connect();
+        const rows = await db.all(`
+            UPDATE users SET username = ?, password = ?, email = ?, firstname = ?, lastname = ?, isAdmin = ?, updated = date('now') WHERE id = ?
+        `, [user.username, user.password, user.email, user.firstname, user.lastname, user.isAdmin, id]);
+        await db.close();
+        return rows;
+    } catch (err) {
+        console.log("error in updateUserById", err);
+    }
+}
 // export functions
 export { createDatabase, getAsyncAllUsers , insertUser, getUserById, deleteUserById};
 
