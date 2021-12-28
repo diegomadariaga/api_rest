@@ -20,6 +20,11 @@ async function getRows(sql:string) {
         console.log(err);
     }
 }
+// aqui faltan cosas
+
+
+
+
 //getRows('SELECT * FROM categories');
 getRows('INSERT INTO categories (CategoryName, Description) VALUES ("test-node","description")');
 
