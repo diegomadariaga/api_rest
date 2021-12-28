@@ -131,6 +131,8 @@ async function updateUserById(id: number, user: User){
         console.log("error in updateUserById", err);
     }
 }
+
 // export functions
 export { createDatabase, getAsyncAllUsers , insertUser, getUserById, deleteUserById};
+
 
