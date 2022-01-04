@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "tsc -target es2021 && nodemon app.js",
+    "dev": "tsc -target es2021 && nodemon ./build/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
