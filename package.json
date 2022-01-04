@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "tsc -target es2021 && nodemon ./build/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --verbose"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,15 @@
     "axios": "^0.24.0",
     "eslint": "^8.3.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.3"
+    "eslint-plugin-import": "^2.25.3",
+    "jest": "^27.4.5"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "eslintConfig": {
+    "env": {
+      "jest": true
+    }
   }
 }
