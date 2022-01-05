@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { getAsyncAllUsers, insertUser, getUserById ,deleteUserById} from '../database/db';
 import { User } from '../models/User';
+import crypto from 'crypto';
 
 const getAllUsers = async (_req: Request, res: Response) => {
     const users = await getAsyncAllUsers();
@@ -53,6 +54,12 @@ const encryptPassword = (password: string) => {
     const hash = crypto.createHash('sha256');
     hash.update(password);
     return hash.digest('hex');
+}
+// desencriptar password sha256
+const decryptPassword = (password: string, hash: string) => {
+    const hash2 = crypto.createHash('sha256');
+    hash2.update(password);
+    return hash2.digest('hex') === hash;
 }
 
 
