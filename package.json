@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon ./build/app.js",
     "dev": "tsc -target es2021 && nodemon ./build/app.js",
+    "build": "tsc -p tsconfig.json -w",
     "test": "jest --verbose"
   },
   "repository": {
