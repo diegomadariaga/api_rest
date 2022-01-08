@@ -6,7 +6,7 @@ const app: express.Application = express();
 
 dotenv.config();
 // configurar el puerto
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 3001);
 
 // use middleware body-parser para recibir jsons
 app.use(express.json());

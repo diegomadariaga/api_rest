@@ -101,7 +101,7 @@ async function getUserById(id) {
             SELECT * FROM users WHERE id = ?
         `, [id]);
         await db.close();
-        return rows;
+        return rows[0];
     }
     catch (err) {
         console.log("error in getUserById", err);

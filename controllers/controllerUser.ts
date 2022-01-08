@@ -28,7 +28,7 @@ const getUser = async (req: Request, res: Response) => {
         res.status(404).json({ message: 'id is not a positive number' });
     } else {
         const user = await getUserById(id);
-        if (user && user.length > 0) {
+        if (user) {
             res.json(user);
         } else {
             res.status(404).json({ message: 'user not found' });
