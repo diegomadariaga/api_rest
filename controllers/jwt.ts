@@ -1,5 +1,5 @@
+import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from "../models/User";
 
 const verifyJwtToken = (token: string) => {
     try {
@@ -10,21 +10,22 @@ const verifyJwtToken = (token: string) => {
     }
 };
 
-const generateJwtToken = (user: User) => {
-    const payload = {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        isAdmin: user.isAdmin,
-        created: user.created,
-        updated: user.updated
-    };
-    const options = {
-        expiresIn: '1d'
-    };
-    return jwt.sign(payload, 'secret', options);
-};
+const getJWT = (req: Request, res: Response) => {
+    const id = req.body.id;
+    const password = req.body.password;
+    if (id && password) {
+        const payload = {
+            id,
+            password
+        }
+        const token = jwt.sign(payload, process.env.SECRET_KEY, {
+            expiresIn: '1h'
+        });
+        res.status(200).send(token);
+    } else {
+        res.status(404).send('id or password is not defined');
+    }
+}
 
-export { verifyJwtToken, generateJwtToken };
+
+export { verifyJwtToken, getJWT };
