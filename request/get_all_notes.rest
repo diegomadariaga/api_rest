@@ -1,15 +1,34 @@
-GET http://localhost:3001/notas
+GET http://localhost:3001/user
 
 ###
 
-GET http://localhost:3001/notas/1
+GET http://localhost:3001/user/2
 
 ###
 
-POST http://localhost:3001/notas
+POST http://localhost:3001/user
 content-type: application/json
 
 {
-    "titulo": "Nota nueva",
-    "descripcion": "descripcion de la nueva nota"
+    "id": "",
+    "username": "diego",
+    "password": "string",
+    "email": "",
+    "firstname": "string",
+    "lastname": "string",
+    "isAdmin": true,
+    "created": "Date",
+    "updated": "Date"
 }
+
+###
+POST http://localhost:3001/user/login/
+content-type: application/json
+
+{
+    "id": "1",
+    "password": "string"
+}
+###
+GET http://localhost:3001/user/login/
+

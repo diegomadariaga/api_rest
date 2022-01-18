@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { getAsyncAllUsers, insertUser, getUserById ,deleteUserById} from '../database/db';
+import { getAsyncAllUsers, insertUser, getUserById, deleteUserById } from '../database/db';
 import { User } from '../models/User';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 
 const getAllUsers = async (_req: Request, res: Response) => {
     const users = await getAsyncAllUsers();
@@ -61,6 +62,23 @@ const decryptPassword = (password: string, hash: string) => {
     hash2.update(password);
     return hash2.digest('hex') === hash;
 }
+const getJWT =  (req: Request, res: Response) => {
+    const id = req.body.id;
+    const password = req.body.password;
+    console.log(id, password);
+    if (id && password) {
+        const payload = {
+            id,
+            password
+        }
+        const token = jwt.sign(payload, process.env.SECRET_KEY, {
+            expiresIn: '1h'
+        });
+        res.status(200).send(token);
+    } else {
+        res.status(404).send('id or password is not defined');
+    }
+}
 
 
-export { getAllUsers, createUser, getUser , deleteUser};
+export { getAllUsers, createUser, getUser, deleteUser, encryptPassword, decryptPassword, getJWT };
