@@ -68,7 +68,6 @@ async function getAsyncAllUsers() {
     try {
         const db = await connect();
         const rows = await db.all(`SELECT * FROM users`);
-        console.log(rows);
         await db.close();
         return rows;
     }
@@ -81,15 +80,16 @@ exports.getAsyncAllUsers = getAsyncAllUsers;
 async function insertUser(user) {
     try {
         const db = await connect();
-        const rows = await db.all(`
+        await db.all(`
             INSERT INTO users (username, password, email, firstname, lastname, isAdmin, created, updated)
             VALUES (?, ?, ?, ?, ?, ?, date('now'), null)
         `, [user.username, user.password, user.email, user.firstname, user.lastname, user.isAdmin]);
         await db.close();
-        return rows;
+        return true;
     }
     catch (err) {
         console.log("error in insertUser", err);
+        return false;
     }
 }
 exports.insertUser = insertUser;

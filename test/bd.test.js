@@ -5,6 +5,7 @@ const {getUserById} = require('../build/database/db.js');
 describe('getUserById', () => {
     test('debe retornar un usuario', async () => {
         const user = await getUserById(1);
+        console.log(user);
         expect(user.id).toBe(1);
         expect(user.username).toBe('diego');
         expect(user.password).toBe('string');

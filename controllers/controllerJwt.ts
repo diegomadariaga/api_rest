@@ -1,11 +1,16 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-const verifyJwtToken = (token: string) => {
-    try {
-        const decoded = jwt.verify(token, 'secret');
-        return true;
-    } catch (error) {
+const verifyJwtToken =  (token: string) => {
+    if (token) {
+        try {
+            const result = jwt.verify(token, process.env.SECRET_KEY);
+            console.log("result",result);
+            return result;
+        } catch (error) {
+            return false;
+        }
+    } else {
         return false;
     }
 };

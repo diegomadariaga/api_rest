@@ -1,7 +1,7 @@
 import express from 'express';
 import { getAllUsers , createUser, getUser, deleteUser} from '../controllers/controllerUser';
 
-import { getJWT } from '../controllers/jwt';
+import { getJWT } from '../controllers/controllerJwt';
 
 const router = express.Router();
 

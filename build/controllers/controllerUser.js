@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.getUser = exports.createUser = exports.getAllUsers = void 0;
+exports.encryptPassword = exports.deleteUser = exports.getUser = exports.createUser = exports.getAllUsers = void 0;
 const db_1 = require("../database/db");
 const User_1 = require("../models/User");
 const crypto_1 = __importDefault(require("crypto"));
@@ -69,9 +69,4 @@ const encryptPassword = (password) => {
     hash.update(password);
     return hash.digest('hex');
 };
-// desencriptar password sha256
-const decryptPassword = (password, hash) => {
-    const hash2 = crypto_1.default.createHash('sha256');
-    hash2.update(password);
-    return hash2.digest('hex') === hash;
-};
+exports.encryptPassword = encryptPassword;

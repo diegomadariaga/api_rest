@@ -5,10 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const controllerUser_1 = require("../controllers/controllerUser");
+const controllerJwt_1 = require("../controllers/controllerJwt");
 const router = express_1.default.Router();
 router.get('/', controllerUser_1.getAllUsers);
 router.post('/', controllerUser_1.createUser);
 router.get('/:id', controllerUser_1.getUser);
 router.delete('/:id', controllerUser_1.deleteUser);
+router.post('/login/:id', controllerJwt_1.getJWT);
 // Export the router
 exports.default = router;
