@@ -1,10 +1,9 @@
-import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
 const verifyJwtToken =  (token: string) => {
     if (token) {
         try {
-            const result = jwt.verify(token, process.env.SECRET_KEY);
+            const result = jwt.verify(token, process.env.SECRET_KEY|| "1234");
             console.log("result",result);
             return result;
         } catch (error) {
@@ -15,20 +14,18 @@ const verifyJwtToken =  (token: string) => {
     }
 };
 
-const getJWT = (req: Request, res: Response) => {
-    const id = req.body.id;
-    const password = req.body.password;
+const getJWT = (id: number, password:string) => {
     if (id && password) {
         const payload = {
             id,
             password
         }
-        const token = jwt.sign(payload, process.env.SECRET_KEY, {
+        const token = jwt.sign(payload, process.env.SECRET_KEY|| "1234", {
             expiresIn: '1h'
         });
-        res.status(200).send(token);
+        return token;
     } else {
-        res.status(404).send('id or password is not defined');
+        return false;
     }
 }
 

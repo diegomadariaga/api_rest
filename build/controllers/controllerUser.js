@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.encryptPassword = exports.deleteUser = exports.getUser = exports.createUser = exports.getAllUsers = void 0;
+exports.JWT = exports.encryptPassword = exports.deleteUser = exports.getUser = exports.createUser = exports.getAllUsers = void 0;
 const db_1 = require("../database/db");
 const User_1 = require("../models/User");
 const crypto_1 = __importDefault(require("crypto"));
+const controllerJwt_1 = require("./controllerJwt");
 const getAllUsers = async (_req, res) => {
     const users = await (0, db_1.getAsyncAllUsers)();
     if (users) {
@@ -70,3 +71,20 @@ const encryptPassword = (password) => {
     return hash.digest('hex');
 };
 exports.encryptPassword = encryptPassword;
+const JWT = (req, res) => {
+    const id = Number(req.params.id);
+    const password = req.body.password;
+    if (isNaN(id) || id < 0) {
+        res.status(404).json({ message: 'id is not a positive number' });
+    }
+    else {
+        const token = (0, controllerJwt_1.getJWT)(id, password);
+        if (token) {
+            res.json({ token });
+        }
+        else {
+            res.status(404).json({ message: 'user not found' });
+        }
+    }
+};
+exports.JWT = JWT;

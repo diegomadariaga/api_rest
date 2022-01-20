@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { getAsyncAllUsers, insertUser, getUserById, deleteUserById } from '../database/db';
 import { User } from '../models/User';
 import crypto from 'crypto';
+import { getJWT } from './controllerJwt';
+
 
 
 const getAllUsers = async (_req: Request, res: Response) => {
@@ -56,6 +58,21 @@ const encryptPassword = (password: string) => {
     hash.update(password);
     return hash.digest('hex');
 }
+const JWT = (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const password = req.body.password;
+    if (isNaN(id) || id < 0) {
+        res.status(404).json({ message: 'id is not a positive number' });
+    } else {
+        const token = getJWT(id, password);
+        if (token) {
+            res.json({ token });
+        } else {
+            res.status(404).json({ message: 'user not found' });
+        }
+    }
+}
 
 
-export { getAllUsers, createUser, getUser, deleteUser, encryptPassword };
+
+export { getAllUsers, createUser, getUser, deleteUser, encryptPassword , JWT};

@@ -8,7 +8,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const verifyJwtToken = (token) => {
     if (token) {
         try {
-            const result = jsonwebtoken_1.default.verify(token, process.env.SECRET_KEY);
+            const result = jsonwebtoken_1.default.verify(token, process.env.SECRET_KEY || "1234");
             console.log("result", result);
             return result;
         }
@@ -21,21 +21,19 @@ const verifyJwtToken = (token) => {
     }
 };
 exports.verifyJwtToken = verifyJwtToken;
-const getJWT = (req, res) => {
-    const id = req.body.id;
-    const password = req.body.password;
+const getJWT = (id, password) => {
     if (id && password) {
         const payload = {
             id,
             password
         };
-        const token = jsonwebtoken_1.default.sign(payload, process.env.SECRET_KEY, {
+        const token = jsonwebtoken_1.default.sign(payload, process.env.SECRET_KEY || "1234", {
             expiresIn: '1h'
         });
-        res.status(200).send(token);
+        return token;
     }
     else {
-        res.status(404).send('id or password is not defined');
+        return false;
     }
 };
 exports.getJWT = getJWT;
