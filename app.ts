@@ -11,7 +11,7 @@ app.set("port", process.env.PORT || 3001);
 // use middleware body-parser para recibir jsons
 app.use(express.json());
 // use middleware url-encoded para formularios con archivos
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 
 app.get("/", (req: Request, res: Response) => {

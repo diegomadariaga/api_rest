@@ -13,7 +13,7 @@ app.set("port", process.env.PORT || 3001);
 // use middleware body-parser para recibir jsons
 app.use(express_1.default.json());
 // use middleware url-encoded para formularios con archivos
-app.use(express_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.urlencoded({ extended: false }));
 app.get("/", (req, res) => {
     res.send("Hola mundo");
 });

@@ -22,7 +22,7 @@ content-type: application/json
 }
 
 ###
-POST http://localhost:3001/user/login/1
+POST http://localhost:3001/user/login/
 content-type: application/json
 
 {

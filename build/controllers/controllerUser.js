@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JWT = exports.encryptPassword = exports.deleteUser = exports.getUser = exports.createUser = exports.getAllUsers = void 0;
+exports.verifyT = exports.JWT = exports.encryptPassword = exports.deleteUser = exports.getUser = exports.createUser = exports.getAllUsers = void 0;
 const db_1 = require("../database/db");
 const User_1 = require("../models/User");
 const crypto_1 = __importDefault(require("crypto"));
@@ -72,7 +72,7 @@ const encryptPassword = (password) => {
 };
 exports.encryptPassword = encryptPassword;
 const JWT = (req, res) => {
-    const id = Number(req.params.id);
+    const id = Number(req.body.id);
     const password = req.body.password;
     if (isNaN(id) || id < 0) {
         res.status(404).json({ message: 'id is not a positive number' });
@@ -80,7 +80,7 @@ const JWT = (req, res) => {
     else {
         const token = (0, controllerJwt_1.getJWT)(id, password);
         if (token) {
-            res.json({ token });
+            res.json({ token, message: 'user logged in' });
         }
         else {
             res.status(404).json({ message: 'user not found' });
@@ -88,3 +88,19 @@ const JWT = (req, res) => {
     }
 };
 exports.JWT = JWT;
+const verifyT = (req, res) => {
+    const token = req.body.token;
+    if (token) {
+        const result = (0, controllerJwt_1.verifyJwtToken)(token);
+        if (result) {
+            res.json({ token, message: 'token valido' });
+        }
+        else {
+            res.status(404).json({ message: 'token invalido' });
+        }
+    }
+    else {
+        res.status(401).json({ message: 'token not provided' });
+    }
+};
+exports.verifyT = verifyT;

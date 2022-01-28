@@ -10,6 +10,7 @@ router.get('/', controllerUser_1.getAllUsers);
 router.post('/', controllerUser_1.createUser);
 router.get('/:id', controllerUser_1.getUser);
 router.delete('/:id', controllerUser_1.deleteUser);
-router.post('/login/:id', controllerUser_1.JWT);
+router.post('/login', controllerUser_1.JWT);
+router.post('/verify', controllerUser_1.verifyT);
 // Export the router
 exports.default = router;

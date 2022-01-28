@@ -28,6 +28,4 @@ const getJWT = (id: number, password:string) => {
         return false;
     }
 }
-
-
 export { verifyJwtToken, getJWT };

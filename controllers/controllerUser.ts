@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
+import { Request, Response,NextFunction } from 'express';
 import { getAsyncAllUsers, insertUser, getUserById, deleteUserById } from '../database/db';
 import { User } from '../models/User';
 import crypto from 'crypto';
-import { getJWT } from './controllerJwt';
+import { getJWT,verifyJwtToken } from './controllerJwt';
 
 
 
@@ -59,20 +59,33 @@ const encryptPassword = (password: string) => {
     return hash.digest('hex');
 }
 const JWT = (req: Request, res: Response) => {
-    const id = Number(req.params.id);
+    const id = Number(req.body.id);
     const password = req.body.password;
     if (isNaN(id) || id < 0) {
         res.status(404).json({ message: 'id is not a positive number' });
     } else {
         const token = getJWT(id, password);
         if (token) {
-            res.json({ token });
+            res.json({ token, message: 'user logged in' });
         } else {
             res.status(404).json({ message: 'user not found' });
         }
     }
 }
+const verifyT = (req: Request, res: Response) => {
+    const token = req.body.token;
+    if (token) {
+        const result = verifyJwtToken(token);
+        if (result) {
+            res.json({ token, message: 'token valido' });
+        } else {
+            res.status(404).json({ message: 'token invalido' });
+        }
+    } else {
+        res.status(401).json({ message: 'token not provided' });
+    }
+}
 
 
 
-export { getAllUsers, createUser, getUser, deleteUser, encryptPassword , JWT};
+export { getAllUsers, createUser, getUser, deleteUser, encryptPassword , JWT, verifyT};
